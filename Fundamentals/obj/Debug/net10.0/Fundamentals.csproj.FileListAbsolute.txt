@@ -1,0 +1,15 @@
+/workspaces/Practice/Fundamentals/bin/Debug/net10.0/Fundamentals
+/workspaces/Practice/Fundamentals/bin/Debug/net10.0/Fundamentals.deps.json
+/workspaces/Practice/Fundamentals/bin/Debug/net10.0/Fundamentals.runtimeconfig.json
+/workspaces/Practice/Fundamentals/bin/Debug/net10.0/Fundamentals.dll
+/workspaces/Practice/Fundamentals/bin/Debug/net10.0/Fundamentals.pdb
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.AssemblyInfoInputs.cache
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.AssemblyInfo.cs
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.csproj.CoreCompileInputs.cache
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.sourcelink.json
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.dll
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/refint/Fundamentals.dll
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.pdb
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/Fundamentals.genruntimeconfig.cache
+/workspaces/Practice/Fundamentals/obj/Debug/net10.0/ref/Fundamentals.dll

@@ -1,11 +1,23 @@
-﻿// 5. Write a program that checks whether a number is positive, negative, or zero.
+﻿// 12. Write a method that checks whether a number is prime.
 
-Console.Write("Enter first integer: ");
-int firstNumber = Convert.ToInt32(Console.ReadLine());
+static bool IsPrime(int number)
+{
+    if (number < 2)
+        return false;
 
-if(firstNumber > 0) 
-    Console.WriteLine("Number is positive !");
-else if(firstNumber < 0)
-    Console.WriteLine("Number is negative !");
+    for (int i = 2; i <= number / 2; i++)
+    {
+        if (number % i == 0)
+            return false;
+    }
+
+    return true;
+}
+
+Console.Write("Enter a number: ");
+int number = Convert.ToInt32(Console.ReadLine());
+
+if (IsPrime(number))
+    Console.WriteLine($"{number} is a prime number.");
 else
-    Console.WriteLine("Number is zero !");
+    Console.WriteLine($"{number} is not a prime number.");

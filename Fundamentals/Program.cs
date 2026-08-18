@@ -1,13 +1,11 @@
-﻿// 3. Write a method that swaps two integers without using a temporary variable.
+﻿// 5. Write a program that checks whether a number is positive, negative, or zero.
 
 Console.Write("Enter first integer: ");
 int firstNumber = Convert.ToInt32(Console.ReadLine());
 
-Console.Write("Enter second integer: ");
-int secondNumber = Convert.ToInt32(Console.ReadLine());
-
-firstNumber = firstNumber + secondNumber;
-secondNumber =  firstNumber - secondNumber;
-firstNumber = firstNumber - secondNumber;
-
-Console.WriteLine($"Swapped numbers are : {firstNumber}, {secondNumber}");
+if(firstNumber > 0) 
+    Console.WriteLine("Number is positive !");
+else if(firstNumber < 0)
+    Console.WriteLine("Number is negative !");
+else
+    Console.WriteLine("Number is zero !");

@@ -59,3 +59,30 @@ firstNumber = firstNumber - secondNumber;
 
 Console.WriteLine($"Swapped numbers are : {firstNumber}, {secondNumber}");
 ```
+
+# 4. Write a program that determines whether an integer is even or odd.
+
+```csharp
+Console.Write("Enter first integer: ");
+int firstNumber = Convert.ToInt32(Console.ReadLine());
+
+if(firstNumber % 2 == 0) 
+    Console.WriteLine("Integer is even !");
+else
+    Console.WriteLine("Integer is odd !");
+```
+# 5. Write a program that checks whether a number is positive, negative, or zero.
+
+```csharp
+
+Console.Write("Enter first integer: ");
+int firstNumber = Convert.ToInt32(Console.ReadLine());
+
+if(firstNumber > 0) 
+    Console.WriteLine("Number is positive !");
+else if(firstNumber < 0)
+    Console.WriteLine("Number is negative !");
+else
+    Console.WriteLine("Number is zero !");
+```
+

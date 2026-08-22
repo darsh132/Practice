@@ -1,23 +1,26 @@
-﻿// 12. Write a method that checks whether a number is prime.
+﻿// 22. Write a method that checks whether a number is an Armstrong number.
 
-static bool IsPrime(int number)
+int number = 153;
+Console.WriteLine($"{number} is an Armstrong number: {IsArmstrong(number)}");
+
+static bool IsArmstrong(int number)
 {
-    if (number < 2)
+    // Negative numbers cannot be Armstrong numbers
+    if(number < 0)
         return false;
+    
+    // Determine the number of digits
+    int digits = number == 0 ? 1 : (int)Math.Floor(Math.Log10(number)) + 1;
 
-    for (int i = 2; i <= number / 2; i++)
+    int temp = number;
+    int sum = 0;
+
+    while(temp > 0)
     {
-        if (number % i == 0)
-            return false;
+        int digit = temp % 10;
+        sum += (int)Math.Pow(digit, digits);
+        temp /= 10;
     }
 
-    return true;
+    return sum == number;
 }
-
-Console.Write("Enter a number: ");
-int number = Convert.ToInt32(Console.ReadLine());
-
-if (IsPrime(number))
-    Console.WriteLine($"{number} is a prime number.");
-else
-    Console.WriteLine($"{number} is not a prime number.");

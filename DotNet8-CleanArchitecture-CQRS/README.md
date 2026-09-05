@@ -1,19 +1,21 @@
-# .NET 8 Clean Architecture + CQRS API
+# .NET 8 Clean Architecture + CQRS + Local AI
 
-A portfolio-grade ASP.NET Core .NET 8 Minimal API demonstrating Clean Architecture, CQRS and the engineering practices expected from a maintainable enterprise service.
+A portfolio-grade .NET 8 solution demonstrating enterprise API engineering plus a runnable local-AI workflow using Semantic Kernel and Ollama.
 
-## Requirements demonstrated
+## Evidence demonstrated
 
 | Requirement | Implementation |
 |---|---|
 | Dependency Injection | ASP.NET Core built-in DI; interfaces registered at the composition root |
 | Structured Logging | Serilog with structured properties and request logging |
-| Global Exception Handling | Centralized exception handler returning ProblemDetails |
+| Global Exception Handling | Centralized `IExceptionHandler` returning ProblemDetails |
 | Validation | FluentValidation integrated through a MediatR pipeline behavior |
 | Unit Testing | xUnit + FluentAssertions |
 | Integration Testing | xUnit + WebApplicationFactory exercising the real API pipeline |
+| Semantic Kernel + Local LLM | `src/TaskFlow.AI` orchestrates Ollama through the Semantic Kernel Ollama connector |
+| Practical AI use case | Support-ticket structured JSON extraction followed by validation/normalization |
 
-## Architecture
+## Projects
 
 ```text
 src/
@@ -21,13 +23,14 @@ src/
   TaskFlow.Application     -> Commands, queries, handlers, DTOs, validation
   TaskFlow.Domain          -> Entities, value objects, domain rules
   TaskFlow.Infrastructure  -> EF Core, SQLite, repositories, persistence
+  TaskFlow.AI              -> Semantic Kernel + Ollama business-AI sample
 
 tests/
   TaskFlow.Application.Tests -> unit tests
   TaskFlow.Api.Tests         -> API integration tests
 ```
 
-Dependencies point inward: Domain has no infrastructure dependency; Application depends on Domain; Infrastructure implements Application contracts; API composes the system.
+Dependencies point inward: Domain has no infrastructure dependency; Application depends on Domain; Infrastructure implements Application contracts; API composes the system. The AI sample is intentionally isolated so its model/provider dependencies do not contaminate the core API layers.
 
 ## Stack
 
@@ -43,6 +46,41 @@ Dependencies point inward: Domain has no infrastructure dependency; Application 
 - Swagger/OpenAPI
 - Docker
 - GitHub Actions
+- Semantic Kernel
+- Ollama + Llama 3.2
+
+## Local AI sample
+
+`src/TaskFlow.AI` demonstrates an enterprise support-ticket workflow:
+
+```text
+Raw support ticket
+      |
+      v
+Semantic Kernel + Ollama
+      |
+      +--> Extraction prompt
+      |       |
+      |       v
+      |   Candidate JSON
+      |       |
+      +--> Validation/normalization prompt
+              |
+              v
+        Structured JSON
+```
+
+The sample extracts customer, category, priority, summary, sentiment, impact and action items. The application then parses the final response with `System.Text.Json` so downstream code receives a machine-readable contract rather than free-form text.
+
+Run it with:
+
+```bash
+ollama serve
+ollama pull llama3.2
+dotnet run --project src/TaskFlow.AI
+```
+
+See [`src/TaskFlow.AI/README.md`](src/TaskFlow.AI/README.md) for the full setup and architecture notes.
 
 ## Observability
 
@@ -52,7 +90,7 @@ The request pipeline also uses Serilog request logging so HTTP method, path, sta
 
 ## Error handling
 
-Unhandled exceptions are handled centrally and returned as ProblemDetails responses instead of leaking implementation details through individual endpoints. Expected validation failures are rejected by FluentValidation before command/query handlers execute.
+Unhandled API exceptions are handled centrally and returned as ProblemDetails responses instead of leaking implementation details through individual endpoints. Expected validation failures are rejected by FluentValidation before command/query handlers execute.
 
 ## Testing strategy
 
@@ -78,8 +116,9 @@ The API test project uses `WebApplicationFactory` to boot the ASP.NET Core appli
 - Unit and API integration tests
 - Docker support
 - CI build/test workflow
+- Local Semantic Kernel + Ollama AI workflow
 
-## Run
+## Run the API
 
 ```bash
 dotnet restore
@@ -114,4 +153,6 @@ POST /api/tasks/{id}/complete
 
 The project intentionally avoids putting business logic into endpoint delegates. Endpoints translate HTTP concerns into application requests; handlers coordinate use cases; domain objects enforce invariants; Infrastructure owns persistence details; cross-cutting concerns such as validation, logging and exception handling are centralized.
 
-This is a learning/portfolio reference implementation designed to demonstrate practical enterprise .NET engineering patterns.
+The AI sample follows the same principle: model calls are isolated behind an explicit orchestration workflow, while schema validation and JSON parsing remain application responsibilities.
+
+This is a learning/portfolio reference implementation designed to demonstrate practical enterprise .NET engineering patterns and modern local-AI integration.

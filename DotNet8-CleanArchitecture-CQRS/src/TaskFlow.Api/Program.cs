@@ -22,7 +22,6 @@ builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
 var app = builder.Build();
 app.UseExceptionHandler();
 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
-
 app.MapHealthChecks("/health");
 
 var tasks = app.MapGroup("/api/tasks").WithTags("Tasks");
@@ -37,7 +36,10 @@ tasks.MapGet("/{id:guid}", async (Guid id, ISender sender, CancellationToken ct)
 });
 
 tasks.MapPost("/", async (CreateTaskCommand command, ISender sender, CancellationToken ct) =>
-    Results.Created($"/api/tasks/{{id}}", await sender.Send(command, ct)));
+{
+    var result = await sender.Send(command, ct);
+    return Results.Created($"/api/tasks/{result.Id}", result);
+});
 
 tasks.MapPut("/{id:guid}", async (Guid id, UpdateTaskRequest request, ISender sender, CancellationToken ct) =>
 {
@@ -60,3 +62,4 @@ using (var scope = app.Services.CreateScope())
 app.Run();
 
 public sealed record UpdateTaskRequest(string Title, string? Description, int Priority);
+public partial class Program { }
